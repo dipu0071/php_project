@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Explore Courses</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 700px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      background: #fafafa;
+    }
+    h1 {
+      color: #2980b9;
+      text-align: center;
+    }
+    #courses {
+      margin-top: 1.5rem;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      background: #ecf0f1;
+      margin: 0.5rem 0;
+      padding: 0.8rem;
+      border-radius: 4px;
+    }
+    .btn {
+      display: inline-block;
+      margin-top: 1.5rem;
+      padding: 0.6rem 1.2rem;
+      background: #2980b9;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+    }
+    .btn:hover {
+      background: #1f6391;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Explore Courses</h1>
+
+  <section id="courses">
+    <p>Loading courses…</p>
+  </section>
+
+  <a href="practice courses.html" class="btn">← Go to Practice Exams</a>
+
+  <script>
+    const coursesContainer = document.getElementById('courses');
+
+    fetch('api.php?type=courses')
+      .then(res => res.json())
+      .then(courses => {
+        if (!Array.isArray(courses) || courses.length === 0) {
+          coursesContainer.innerHTML = '<p>No courses available.</p>';
+          return;
+        }
+
+        const list = document.createElement('ul');
+        courses.forEach(course => {
+          const li = document.createElement('li');
+          li.innerHTML = `<strong>${course.title}</strong><br/>${course.description || ''}`;
+          list.appendChild(li);
+        });
+
+        coursesContainer.innerHTML = '';   // clear loading text
+        coursesContainer.appendChild(list);
+      })
+      .catch(err => {
+        console.error(err);
+        coursesContainer.innerHTML = '<p>Error loading courses.</p>';
+      });
+  </script>
+
+</body>
+</html>

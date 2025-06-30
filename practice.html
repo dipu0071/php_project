@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Practice Exams</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 700px; margin: 2rem auto; padding: 0 1rem; }
+    h1 { color: #27ae60; }
+    ul { list-style: none; padding: 0; }
+    li { background: #ecf0f1; margin: .5rem 0; padding: .8rem; border-radius: 4px; }
+    a.back { display: inline-block; margin-top: 1rem; color: #2c3e50; text-decoration: none; }
+  </style>
+</head>
+<body>
+
+  <h1>Practice Exams</h1>
+  <section id="content">
+    <p>Loading exams…</p>
+  </section>
+
+  <a href="courses.html" class="back">⇨ Go to Courses</a>
+
+  <script>
+    const content = document.getElementById('content');
+
+    fetch('api.php?type=exams')
+      .then(res => res.json())
+      .then(exams => {
+        if (!exams.length) {
+          content.innerHTML = '<p>No practice exams found.</p>';
+          return;
+        }
+        const items = exams.map(e =>
+          `<li>
+             <strong>${e.title}</strong><br/>
+             ${e.questions || ''}
+           </li>`
+        ).join('');
+        content.innerHTML = `<ul>${items}</ul>`;
+      })
+      .catch(err => {
+        console.error(err);
+        content.innerHTML = '<p>Error loading exams.</p>';
+      });
+  </script>
+
+</body>
+</html>

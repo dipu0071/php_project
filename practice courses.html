@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Practice Now</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 700px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      background: #fafafa;
+    }
+    h1 {
+      color: #27ae60;
+      text-align: center;
+    }
+    #exams {
+      margin-top: 1.5rem;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      background: #ecf0f1;
+      margin: 0.5rem 0;
+      padding: 0.8rem;
+      border-radius: 4px;
+    }
+    .btn {
+      display: inline-block;
+      margin-top: 1.5rem;
+      padding: 0.6rem 1.2rem;
+      background: #27ae60;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+    }
+    .btn:hover {
+      background: #219150;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Practice Now</h1>
+
+  <section id="exams">
+    <p>Loading practice exams…</p>
+  </section>
+
+  <a href="blog.html" class="btn">← Back to Courses</a>
+
+  <script>
+    const examsContainer = document.getElementById('exams');
+
+    fetch('api.php?type=exams')
+      .then(res => res.json())
+      .then(exams => {
+        if (!Array.isArray(exams) || exams.length === 0) {
+          examsContainer.innerHTML = '<p>No practice exams found.</p>';
+          return;
+        }
+
+        const list = document.createElement('ul');
+        exams.forEach(exam => {
+          const li = document.createElement('li');
+          li.innerHTML = `<strong>${exam.title}</strong><br/>${exam.questions}`;
+          list.appendChild(li);
+        });
+
+        examsContainer.innerHTML = '';   // clear loading text
+        examsContainer.appendChild(list);
+      })
+      .catch(err => {
+        console.error(err);
+        examsContainer.innerHTML = '<p>Error loading practice exams.</p>';
+      });
+  </script>
+
+</body>
+</html>

@@ -23,8 +23,8 @@
         <h1>Master Your Exams with NotesNExam</h1>
         <p>Comprehensive study notes, practice exams, and expert guidance to help you succeed in your academic journey.</p>
         <div class="buttons">
-            <a href="#" class="btn primary">Explore Courses</a>
-            <a href="#" class="btn secondary">Practice Now</a>
+            <a href="hi.html" class="btn primary">Explore Courses</a>
+            <a href="practice courses.html" class="btn secondary">Practice Now</a>
         </div>
     </section>
 
